@@ -1,0 +1,29 @@
+<mat-toolbar color="primary" class="navbar">
+
+
+  <mat-toolbar-row>
+
+
+
+    <button mat-icon-button class="example-icon" (click)="sidebarToggle()"
+      aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <!--
+    <ul class="menu">
+      <li> الرئيسيه</li>
+      <li> الأعدادات</li>
+    </ul> -->
+    <mat-slide-toggle [checked]="isDark" color="accent" (change)="isDarkToggle()"></mat-slide-toggle>
+    <div class="spacer">
+
+    </div>
+
+    <span class="title title-custom-theme"> <span class="firsr-letter">S</span>eagull <span
+        class="firsr-letter">A</span>pp
+      <mat-icon style="font-size: 25px; font-weight:bolder">phone_paused
+      </mat-icon>
+    </span>
+
+  </mat-toolbar-row>
+</mat-toolbar>

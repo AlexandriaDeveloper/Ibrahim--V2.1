@@ -1,0 +1,30 @@
+.card-container {
+  display: flex;
+
+  justify-content: space-around;
+  align-items: center;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    height: 200px;
+
+    .mat-icon {
+      font-size: 140px;
+      width: 140px;
+      height: 140px;
+
+    }
+
+  }
+
+
+
+}
+
+.spacer {
+  margin: 50px;
+}

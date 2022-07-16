@@ -1,0 +1,36 @@
+<button mat-icon-button mat-dialog-close class="btn-close" color="primary">
+  <mat-icon>close</mat-icon>
+</button>
+<div class="dialog-container">
+  <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()">
+    <mat-card color="accent">
+      <mat-card-header>
+        <mat-card-title> إضافة قسم جديد </mat-card-title>
+
+      </mat-card-header>
+      <mat-card-content>
+        <div class="dialog-control">
+          <label class="title" for="">اسم القسم </label>
+          <mat-form-field appearance="fill">
+            <mat-label>الاسم</mat-label>
+            <input matInput placeholder="" autocomplete="off" formControlName="name">
+            <mat-icon color="primary" matSuffix>sentiment_very_satisfied</mat-icon>
+
+            <mat-error *ngIf="departmentFormValidator('name')?.required ===true"> من فضلك قم بادخال اسم القسم
+            </mat-error>
+            <mat-error *ngIf="departmentFormValidator('name')?.minlength"> يجب ادخال 5 احرف على الاقل
+            </mat-error>
+            <mat-error *ngIf="departmentFormValidator('name')?.maxlength"> يجب الا يزيد عدد الاحرف عن 300 حرف
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+      </mat-card-content>
+
+      <mat-card-actions style="display: flex;justify-content:center;">
+        <button [disabled]="departmentForm.invalid" mat-raised-button color="primary">حفظ</button>
+        <button mat-raised-button mat-dialog-close color="warn">الغاء</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

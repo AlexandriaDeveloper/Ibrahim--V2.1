@@ -1,0 +1,286 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+
+@import "~./../../../../node_modules/@angular/material/theming";
+@include mat.core();
+$my-dark-theme-typography: mat.define-typography-config($font-family: Cairo,
+
+    $headline : mat.define-typography-level(24px, 32px, 400px));
+$my-light-theme-typography: mat.define-typography-config($font-family: Cairo,
+    $headline : mat.define-typography-level(24px, 32px, 400px, Cairo));
+
+
+
+
+$dark-primary-palette: (
+  50 : #e5e5e7,
+  100 : #bebec3,
+  200 : #92939b,
+  300 : #666772,
+  400 : #464754,
+  500 : #252636,
+  600 : #212230,
+  700 : #1b1c29,
+  800 : #161722,
+  900 : #0d0d16,
+  A100 : #5a5aff,
+  A200 : #2727ff,
+  A400 : #0000f3,
+  A700 : #0000da,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+$dark-accent-palette :(50 : #eeecf0,
+  100 : #d4d1db,
+  200 : #b7b2c3,
+  300 : #9a93aa,
+  400 : #857b98,
+  500 : #6f6486,
+  600 : #675c7e,
+  700 : #5c5273,
+  800 : #524869,
+  900 : #403656,
+  A100 : #c2a9ff,
+  A200 : #9e76ff,
+  A400 : #7a43ff,
+  A700 : #682aff,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  ));
+
+$dark-warn-palette: (
+  50 : #fbe7e9,
+  100 : #f5c2c7,
+  200 : #ee9aa2,
+  300 : #e7727d,
+  400 : #e15361,
+  500 : #dc3545,
+  600 : #d8303e,
+  700 : #d32836,
+  800 : #ce222e,
+  900 : #c5161f,
+  A100 : #fff6f7,
+  A200 : #ffc3c6,
+  A400 : #ff9095,
+  A700 : #ff777c,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000, )
+);
+
+
+
+// Define a light theme
+$light-primary: mat.define-palette(mat.$deep-orange-palette, 500);
+$light-accent: mat.define-palette(mat.$deep-orange-palette, 200);
+$light-warn: mat.define-palette(mat.$red-palette, 600);
+$light-theme: mat.define-light-theme((color: (primary: $light-primary,
+        accent: $light-accent, warn:$light-warn), typography:$my-light-theme-typography));
+
+
+
+
+// Define a dark theme
+$dark-primary: mat.define-palette(mat.$deep-purple-palette, 300);
+$dark-accent: mat.define-palette(mat.$gray-palette, 500);
+$dark-warn: mat.define-palette($dark-warn-palette, 500);
+
+$dark-theme: mat.define-dark-theme((color: (primary: $dark-primary,
+        accent: $dark-accent, warn:$dark-warn), typography: $my-dark-theme-typography));
+
+
+.my-dark-theme {
+  $color-config: mat.get-color-config($dark-theme);
+  $primary-palette: map.get($color-config, 'primary');
+  $accent-palette: map.get($color-config, 'accent');
+
+  $typography-config: mat.get-typography-config($dark-theme);
+
+  .card-container {
+    background-color: mat.get-color-from-palette($accent-palette, 700) !important;
+  }
+
+  .title-custom-theme {
+    color: #303030;
+  }
+
+  .card {
+    transition: 0.2s ease-in-out;
+
+    mat-icon {
+      color: mat.get-color-from-palette($primary-palette, 300) !important;
+    }
+
+
+  }
+
+  .card:hover {
+
+    background-color: mat.get-color-from-palette($primary-palette, 300);
+    color: mat.get-color-from-palette($primary-palette, 50);
+    ;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    transform: rotate3d(1, 2, 1, 360deg);
+    ;
+
+    mat-icon {
+      color: mat.get-color-from-palette($accent-palette, 100) !important;
+    }
+  }
+
+  .mat-snack-bar-container {
+    height: 60px;
+    color: #fff !important;
+
+    text-align: end;
+
+
+  }
+
+  .mat-snack-bar-success {
+    background-color: mat.get-color-from-palette(mat.$green-palette, 800) !important; // green !important;
+
+    mat-icon {
+      color: mat.get-color-from-palette($typography-config, 900);
+    }
+  }
+
+  .mat-snack-bar-danger {
+    background-color: mat.get-color-from-palette(mat.$red-palette, 700) !important; // green !important;
+
+    mat-icon {
+      color: mat.get-color-from-palette($typography-config, 900);
+    }
+  }
+
+  .mat-snack-bar-warn {
+    background-color: mat.get-color-from-palette(mat.$yellow-palette, 700) !important; // green !important;
+
+    mat-icon {
+      color: mat.get-color-from-palette($typography-config, 900);
+    }
+  }
+
+  @include mat.all-component-themes($dark-theme);
+
+}
+
+.my-light-theme {
+  $color-config: mat.get-color-config($light-theme);
+  $primary-palette: map.get($color-config, 'primary');
+  $typography-config: mat.get-typography-config($light-theme);
+
+
+  .card {
+    transition: 0.2s ease-in-out;
+  }
+
+  .card-container {
+    background-color: mat.get-color-from-palette($primary-palette, 50) !important;
+  }
+
+  .title-custom-theme {
+    color: #fff;
+  }
+
+  .card:hover {
+
+    background-color: mat.get-color-from-palette($primary-palette, 100);
+    color: mat.get-color-from-palette($primary-palette, 900);
+    ;
+    transition-delay: .02s;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    // transform: rotate(360deg);
+    // transform: skew(10deg ,1deg );
+    transform: rotate3d(0.8, 10, 0, 360deg);
+    ;
+
+    mat-icon {
+      color: mat.get-color-from-palette($primary-palette, 800);
+    }
+
+    // transform: translateX(42px);
+
+  }
+
+  .mat-snack-bar-container {
+    height: 60px;
+    color: mat.get-color-from-palette($typography-config, 900) !important;
+    text-align: end;
+
+  }
+
+  .mat-snack-bar-success {
+    background-color: mat.get-color-from-palette(mat.$green-palette, 700) !important; // green !important;
+    color: #fff !important;
+
+    mat-icon {
+      color: #fff !important; //mat.get-color-from-palette($typography-config, 50)!important;
+    }
+  }
+
+  .mat-snack-bar-danger {
+    background-color: mat.get-color-from-palette(mat.$red-palette, 700) !important; // green !important;
+    color: #fff !important; // mat.get-color-from-palette($typography-config, 50)!important;
+
+    mat-icon {
+      color: #fff !important; // mat.get-color-from-palette($typography-config, 50)!important;
+    }
+  }
+
+  .mat-snack-bar-warn {
+    background-color: mat.get-color-from-palette(mat.$yellow-palette, 700) !important; // green !important;
+    color: #fff !important;
+
+    mat-icon {
+      color: #fff !important; // mat.get-color-from-palette($typography-config, 50)!important;
+    }
+  }
+
+
+  @include mat.all-component-themes($light-theme);
+
+
+
+
+}

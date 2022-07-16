@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex-direction: column;
+  width: 70%;
+}
+
+.page-content {
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+table {
+  width: 70%;
+  max-height: 90vh;
+
+  tr {
+    transition: .6s ease-in-out;
+  }
+}
+
+.dialog {
+  .mat-dialog-container {
+    padding: 0;
+    background-color: red;
+  }
+}
+
+.mat-paginator {
+  width: 70%;
+}

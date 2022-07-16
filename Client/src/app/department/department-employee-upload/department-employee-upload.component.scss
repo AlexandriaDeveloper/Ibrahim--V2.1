@@ -1,0 +1,28 @@
+.form-filed {
+  padding: 20px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    margin-left: 20px;
+  }
+
+  mat-label {
+    margin-left: 40px;
+  }
+
+  .file-path {
+
+    border-radius: 8px;
+    width: 60%;
+    padding: 20px;
+  }
+
+
+}
+
+
+.mat-option {
+  text-align: right !important;
+}

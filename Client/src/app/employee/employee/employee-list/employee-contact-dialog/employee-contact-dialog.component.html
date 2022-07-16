@@ -1,0 +1,190 @@
+<button mat-icon-button mat-dialog-close class="btn-close" color="primary">
+  <mat-icon>close</mat-icon>
+</button>
+<div class="dialog-container">
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <mat-card color="accent">
+      <mat-card-header>
+        <mat-card-title>بيانات {{data?.employee?.name}}</mat-card-title>
+
+      </mat-card-header>
+      <mat-card-content>
+        <div class="dialog-control">
+          <label class="title" for="">اسم الموظف</label>
+          <mat-form-field appearance="fill">
+            <mat-label>الاسم</mat-label>
+            <input matInput placeholder="Placeholder" autocomplete="off" formControlName="name">
+            <mat-icon color="primary" matSuffix>sentiment_very_satisfied</mat-icon>
+
+            <mat-error *ngIf="employeeFormValidator('name')?.required ===true">يجب ادخال الاسم</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="dialog-control">
+          <label class="title" for="">رقم الموبايل</label>
+          <mat-form-field appearance="fill">
+            <mat-label>رقم الموبايل</mat-label>
+            <input type="text" matInput autocomplete="off" formControlName="phoneNumber">
+            <mat-icon color="primary" matSuffix>local_phone</mat-icon>
+
+            <mat-error *ngIf="employeeFormValidator('phoneNumber')?.minlength ">
+              <span>
+                يجب ادخال 11 رقم و انت
+                قمت بادخال
+                {{employeeFormValidator('phoneNumber')?.minlength?.actualLength}} ارقام فقط
+              </span>
+            </mat-error>
+
+            <mat-error *ngIf="employeeFormValidator('phoneNumber')?.maxlength">
+              <span>
+                يجب ادخال 11 رقم فقط و
+                انت
+                قمت بادخال
+                {{employeeFormValidator('phoneNumber')?.maxlength?.actualLength}} رقم
+              </span>
+            </mat-error>
+
+            <mat-error *ngIf="employeeFormValidator('phoneNumber')?.pattern">
+              <span>
+                من فضلك ادخل ارقام فقط لا يمكن ادخال احرف
+              </span>
+            </mat-error>
+
+          </mat-form-field>
+        </div>
+        <div class="dialog-control">
+          <label class="title" for=""> البريد الالكترونى</label>
+          <mat-form-field appearance="fill">
+            <mat-label> البرريد الالكترونى</mat-label>
+            <input matInput type="email" placeholder="" autocomplete="off" formControlName="email">
+            <mat-icon color="primary" matSuffix>email</mat-icon>
+            <mat-error *ngIf="employeeFormValidator('email')?.pattern">
+              <span>
+                من فضلك تأكد من ادخال البريد الالكترونى بشكل صحيح
+              </span>
+            </mat-error>
+
+          </mat-form-field>
+        </div>
+        <!-- <div class="dialog-control">
+          <label class="title" for=""> الكليه</label>
+          <mat-form-field appearance="fill">
+            <mat-label> الكليه</mat-label>
+            <input matInput placeholder="" autocomplete="off" formControlName="collage">
+            <mat-icon color="primary" matSuffix>qr_code2</mat-icon>
+           <mat-hint>Hint</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="dialog-control">
+          <label class="title" for="">الوظيفة</label>
+          <mat-form-field appearance="fill">
+            <mat-label>الوظيفة</mat-label>
+            <input matInput placeholder="" autocomplete="off" formControlName="grade">
+            <mat-icon color="primary" matSuffix>qr_code2</mat-icon>
+          <mat-hint>Hint</mat-hint>
+          </mat-form-field>
+        </div> -->
+
+
+        <div class="dialog-control">
+
+          <!-- <label class="title" for="">القسم</label>
+          <mat-form-field appearance="fill">
+            <mat-label>القسم</mat-label>
+            <input matInput placeholder="" autocomplete="off" formControlName="tegaraCode">
+            <mat-icon color="primary" matSuffix>qr_code2</mat-icon>
+            <mat-hint>Hint</mat-hint>
+          </mat-form-field> -->
+
+
+
+          <mat-label> اختار القسم</mat-label>
+          <mat-form-field appearance="fill">
+            <mat-label>اختار ....</mat-label>
+            <mat-select (selectionChange)="onSelectionChange($event.option.value)" formControlName="departmentId"
+              [value]="data?.employee?.departmentId" #departmentSelect>
+              <mat-option *ngFor="let department of data.departments" [value]="department.id">{{department.name}}
+              </mat-option>
+
+            </mat-select>
+            <button *ngIf="data?.employee?.departmentId" matSuffix mat-icon-button aria-label="Clear"
+              (click)="clearSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <!-- <label class="title" for="">القسم</label>
+          <mat-form-field appearance="fill">
+            <mat-label>القسم</mat-label>
+            <input type="text" placeholder="أختار قسم ...." aria-label="Number" matInput [matAutocomplete]="auto"
+              [value]="getDepartmentById(data?.employee?.departmentId)" [value]="" #departmentSelect>
+            <button *ngIf="data?.employee?.departmentId" matSuffix mat-icon-button aria-label="Clear"
+              (click)="clearSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayWithFun.bind(this)"
+              (optionActivated)="test($event)" (optionSelected)="onSelectionChange($event.option.value)"
+              #departmentSelect>
+              <mat-option *ngFor="let dep of filterdDepartments " [value]="dep.id">
+                {{dep.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field> -->
+        </div>
+        <div class="dialog-control">
+          <label class="title" for="">كود طب</label>
+          <mat-form-field appearance="fill">
+            <mat-label>كود طب</mat-label>
+            <input matInput placeholder="" autocomplete="off" formControlName="tabCode">
+            <mat-icon color="primary" matSuffix>qr_code</mat-icon>
+            <!-- <mat-hint>Hint</mat-hint> -->
+          </mat-form-field>
+        </div>
+        <div class="dialog-control">
+          <label class="title" for="">كود تجارة</label>
+          <mat-form-field appearance="fill">
+            <mat-label>كود تجارة</mat-label>
+            <input matInput placeholder="" autocomplete="off" formControlName="tegaraCode">
+            <mat-icon color="primary" matSuffix>qr_code2</mat-icon>
+            <!-- <mat-hint>Hint</mat-hint> -->
+          </mat-form-field>
+        </div>
+
+
+        <div class="dialog-control">
+          <label class="title" for="">الرقم القومى </label>
+          <mat-form-field appearance="fill">
+            <mat-label>الرقم القومى</mat-label>
+            <input matInput placeholder="" autocomplete="off" formControlName="nationalId">
+            <mat-icon color="primary" matSuffix>qr_code_scanner</mat-icon>
+
+            <mat-error *ngIf="employeeFormValidator('nationalId')?.minlength ">
+              <span>
+                يجب ادخال 14 رقم و انت
+                قمت بادخال
+                {{employeeFormValidator('nationalId')?.minlength?.actualLength}} ارقام فقط
+              </span>
+            </mat-error>
+
+            <mat-error *ngIf="employeeFormValidator('nationalId')?.maxlength">
+              <span>
+                يجب ادخال 14 رقم فقط و
+                انت
+                قمت بادخال
+                {{employeeFormValidator('nationalId')?.maxlength?.actualLength}} رقم
+              </span>
+            </mat-error>
+
+            <mat-error *ngIf="employeeFormValidator('nationalId')?.pattern">
+              <span>
+                من فضلك ادخل ارقام فقط لا يمكن ادخال احرف
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions style="display: flex;justify-content:center;">
+        <button [disabled]="employeeForm.invalid" mat-raised-button color="primary">حفظ</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

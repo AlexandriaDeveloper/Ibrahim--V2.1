@@ -1,0 +1,22 @@
+
+<div   class="snackbar-container">
+
+
+  <div class="button-container">
+    <button  (click)="snackBarRef.dismiss()" mat-icon-button aria-label="Clear" >
+      <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+  <div  class="notification-body" >
+
+
+  {{data?.message}}
+  <mat-icon *ngIf="data?.type===0" > check_circle</mat-icon>
+  <mat-icon  *ngIf="data?.type===1" > remove_circle</mat-icon>
+  <mat-icon  *ngIf="data?.type===2" > info</mat-icon>
+</div>
+
+</div>
+
+

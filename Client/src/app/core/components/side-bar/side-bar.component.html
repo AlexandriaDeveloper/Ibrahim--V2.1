@@ -1,0 +1,43 @@
+<mat-drawer-container style="padding: 20px;" color="primary" autosize="true" class="example-container"
+  [hasBackdrop]="false">
+  <mat-drawer [ngClass]="{'my-dark-theme': isDark,'my-light-theme':!isDark}" color="accent" position="end"
+    class="drawer" style="width: 160px; padding-top: 20px;" #drawer mode="side">
+
+    <mat-selection-list color="accent" [multiple]="false">
+      <!-- <mat-list-option color="primary">
+        <button mat-flat-button color="primary" routerLink="account" routerLinkActive="router-link-active">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">attach_money</mat-icon>
+          الحسابات
+
+        </button>
+      </mat-list-option> -->
+      <mat-list-option>
+        <button mat-flat-button color="primary" routerLink="employee" routerLinkActive="router-link-active">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
+          الموظفين
+        </button>
+      </mat-list-option>
+      <mat-list-option>
+        <a mat-flat-button color="primary" routerLink="department" routerLinkActive="router-link-active">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">account_balance</mat-icon>
+          الاقسام
+        </a>
+      </mat-list-option>
+
+
+
+
+    </mat-selection-list>
+
+
+    <div>
+
+    </div>
+  </mat-drawer>
+
+  <mat-drawer-content dir="rtl">
+
+    <ng-content></ng-content>
+
+  </mat-drawer-content>
+</mat-drawer-container>

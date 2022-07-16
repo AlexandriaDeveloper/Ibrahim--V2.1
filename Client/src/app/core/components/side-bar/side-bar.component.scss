@@ -1,0 +1,26 @@
+.drawer{
+  min-width: 200px;
+
+
+  // padding: 20px 0 ;
+}
+
+.mat-drawer-container{
+  padding: 20px  40px!important;
+
+}
+
+.side-menu{
+  background: orangered;
+  min-height: 100vh;
+  width: 50px;
+  position: relative;
+  top:20px;
+  transition: .3s;
+}
+
+.side-menu:hover{
+  width: 200px;
+  transition: .3s;
+}
+

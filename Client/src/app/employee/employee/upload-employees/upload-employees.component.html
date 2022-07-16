@@ -1,0 +1,33 @@
+<div class="page-header">
+
+  <h2>
+    <mat-icon>{{header.icon}}</mat-icon>
+    {{header.title}}
+  </h2>
+
+
+</div>
+
+<form [formGroup]="employeeForm" (ngSubmit)="submit()">
+<mat-card>
+
+<div class="form-filed">
+  <mat-label>ملف بيانات الموظفين  </mat-label>
+  <button type="button" mat-raised-button (click)="fileInput.click()"> اختار الملف .....</button>
+  <input formControlName="fileUpload" hidden (change)="onFileSelected()" #fileInput type="file" id="file">
+<div class="file-path">
+  <mat-label>{{fileName}} </mat-label>
+  <mat-progress-bar mode="determinate" [value]="progress" #progressbar></mat-progress-bar >
+</div>
+
+</div>
+<mat-action-row style="display :flex;justify-content:center; padding: 20px;">
+  <button [disabled]="uploading" type="submit" mat-raised-button  color="primary">
+    <mat-icon>cloud_upload</mat-icon>
+ رفع الملف
+
+
+  </button>
+</mat-action-row>
+</mat-card>
+</form>

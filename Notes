@@ -1,0 +1,11 @@
+dotnet ef  migrations add Initial  -p Infrastructure -s api -c SallaryContext -o .\Data\Migrations
+
+ dotnet ef database update -p Infrastructure -s api -c SallaryContext   
+
+
+ ng build --prod  
+
+  dotnet publish -c Release -o publish SallaryApp.sln
+
+
+   dotnet ef  migrations script initial  -p Infrastructure -s api -c SallaryContext -o .\Data\Migrations

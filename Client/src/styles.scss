@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+// @import "~/../assets/scss/myStyle.scss";
+
+// @import url('https://fonts.googleapis.com/css?family=Cairo&display=swap');
+// @import url(https://fonts.googleapis.com/css?family=NotoKufiArabic);
+//  @import url(https://fonts.googleapis.com/css?family=Cairo);
+//  @import url(http://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
+
+
+@font-face {
+  font-family: "Cairo";
+  src: local("Cairo"), url(./assets/fonts/Cairo-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Droid Arabic Kufi";
+  src: local("Droid Arabic Kufi"), url(./assets/fonts/Droid.Arabic.Kufi.ttf) format("truetype");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+}
+
+.page-header {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  font-size: 32px;
+  font-family: 'Droid Arabic Kufi' !important;
+  margin-bottom: 20px;
+
+  mat-icon {
+    font-size: 48px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    top: 10px
+  }
+}

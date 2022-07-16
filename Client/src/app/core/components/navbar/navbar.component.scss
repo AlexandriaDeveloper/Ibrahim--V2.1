@@ -1,0 +1,38 @@
+.navbar {
+  position: absolute;
+  height: 80px;
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .menu {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+
+    li {
+      list-style: none;
+      display: flex;
+      padding-right: 1rem;
+      font-family: 'Droid Arabic Kufi', serif;
+    }
+  }
+
+  .title {
+    padding: 20px;
+    font-size: 30px;
+    font-family: Cairo;
+
+    letter-spacing: 2px;
+  }
+
+  .firsr-letter {
+    font-family: 'Times New Roman', Times, serif;
+    // text-decoration: underline;
+    font-size: 40px;
+    text-shadow: 3px 3px 3px;
+    transform: rotateX(45deg) //   font-weight: bold;
+  }
+
+}

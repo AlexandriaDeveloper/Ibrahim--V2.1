@@ -1,0 +1,19 @@
+<!-- <div class="container"  [ngClass]="{'my-dark-theme': isDark,'my-light-theme':!isDark}"> -->
+<div class="container" [ngClass]="theme">
+  <app-navbar [theme]="theme" [sidebar]="sidebar" (darkModeEvent)="isDarkMode($event)"></app-navbar>
+
+  <div class="content">
+    <div class="side-bar">
+      <app-sidebar [isDark]="theme" [sidebarToggle]="sidebarEvent" #sidebar>
+        <div class="main-content">
+          <div class="content">
+            <router-outlet class="outlet">
+
+            </router-outlet>
+          </div>
+        </div>
+      </app-sidebar>
+    </div>
+
+  </div>
+</div>

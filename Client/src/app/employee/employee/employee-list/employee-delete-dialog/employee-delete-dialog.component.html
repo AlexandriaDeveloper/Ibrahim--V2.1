@@ -1,0 +1,29 @@
+<div class="dialog-container">
+  <button mat-icon-button mat-dialog-close class="btn-close" color="primary">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-card>
+    <mat-card-header>
+
+
+      <mat-card-title>
+        <mat-icon color="warn">person-remove</mat-icon>
+        <span class="title"> حذف موظف</span>
+      </mat-card-title>
+      <!-- <mat-card-subtitle>{{data?.employee?.name}}</mat-card-subtitle> -->
+    </mat-card-header>
+    <mat-card-content>
+      أحترس انت على وشك حذف الموظف <button mat-raised-button color="primary">
+        {{data?.employee?.name}}
+      </button> هل انت متأكد ؟؟؟!
+    </mat-card-content>
+    <mat-card-actions>
+      <div style="display: flex;justify-content:center">
+
+        <button mat-raised-button color="warn" mat-button (click)="deleteEmployee()">حذف</button>
+        <button mat-dialog-close mat-raised-button color="primary" mat-button>الغاء</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+
+</div>
