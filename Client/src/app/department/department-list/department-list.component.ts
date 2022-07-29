@@ -77,7 +77,8 @@ export class DepartmentListComponent implements OnInit, AfterViewInit {
 
 
 
-      this.departmentParam.pageIndex = 0
+      this.departmentParam.pageIndex = 0;
+      this.paginator.pageIndex = 0;
       this.departmentParam.name = x.target.value;
       this.loadDepartment()
     })).subscribe();

@@ -9,7 +9,7 @@ using API.Helper;
 using Core.Interfaces;
 using Core.Models.IdentityModels;
 using Infrastructure.Data;
-using Infrastructure.Identity;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -47,7 +47,7 @@ namespace API
              });
 
             services.AddDbContext<SallaryContext>(x => x.UseSqlServer(_configuration.GetConnectionString("Default")));
-            services.AddDbContext<AppIdentityDbContext>(x => x.UseSqlServer(_configuration.GetConnectionString("IdentityCon")));
+            // services.AddDbContext<AppIdentityDbContext>(x => x.UseSqlServer(_configuration.GetConnectionString("IdentityCon")));
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddSwaggerGen(c =>
@@ -55,14 +55,17 @@ namespace API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
             services.AddApplicationServicesExtensions();
-            services.AddIdentityServices(_configuration);
+            //  services.AddIdentityServices(_configuration);
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
-        UserManager<AppUser> userManager,
-        RoleManager<AppRole> roleManager)
+        // public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+        // UserManager<AppUser> userManager,
+        // RoleManager<AppRole> roleManager)
+
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -75,18 +78,18 @@ namespace API
 
             app.UseRouting();
             app.UseStaticFiles();
-            // app.UseStaticFiles(new StaticFileOptions
-            // {
-            //     FileProvider = new PhysicalFileProvider(
-            //         Path.Combine(Directory.GetCurrentDirectory(), "Content")
-            //     ),
-            //     RequestPath = "/content"
-            // });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Content")
+                ),
+                RequestPath = "/content"
+            });
 
 
             app.UseCors("CorsPolicy");
 
-            app.UseAuthentication();
+            //   app.UseAuthentication();
             app.UseAuthorization();
 
 

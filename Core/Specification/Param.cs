@@ -4,7 +4,7 @@ namespace Core.Specification
     {
         private const int MaxPageSize = 50;
         public int PageIndex { get; set; } = 0;
-        public bool IsPagination { get; set; } = false;
+        public bool IsPagination { get; set; } = true;
 
         private int _pageSize = 15;
         public int PageSize

@@ -35,7 +35,7 @@ export class UploadEmployeesComponent implements OnInit {
   }
   onFileSelected() {
     if (this.inputNode.nativeElement.files[0]) {
-
+      this.progress = 0;
       this.fileName = this.inputNode.nativeElement.files[0]?.name
     }
 
@@ -52,6 +52,7 @@ export class UploadEmployeesComponent implements OnInit {
   }
 
   uploadFile() {
+
     if (typeof (FileReader) !== 'undefined') {
       const reader = new FileReader();
       reader.onprogress = ((e: any) => {
@@ -80,9 +81,11 @@ export class UploadEmployeesComponent implements OnInit {
 
 
         this.employeeService.uploadFile(this.file).subscribe({
-          next: (result) => { },
+          next: (result) => {
+            console.log(result);
+          },
           error: (err) => {
-            this._snackBar.openSnackBar("تم تحميل الملف", NotificationType.fail, 5);
+            this._snackBar.openSnackBar("عفوا هذا الملف غير مدعوم", NotificationType.fail, 5);
             this.uploading = false;
           },
           complete: () => {

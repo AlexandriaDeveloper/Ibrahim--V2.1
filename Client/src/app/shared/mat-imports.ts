@@ -18,7 +18,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 @NgModule({
   imports: [
 
@@ -40,7 +42,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatTableModule,
     MatPaginatorModule,
     MatDialogModule,
-    MatAutocompleteModule
+    MatAutocompleteModule, MatDatepickerModule,
+    MatNativeDateModule,
+    MomentDateModule
+
   ]
 })
 export class MatMoudleFiles { }

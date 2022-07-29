@@ -13,7 +13,7 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationServicesExtensions(this IServiceCollection services)
         {
             services.AddScoped<IUOW, UOW>();
-            services.AddScoped<ITokenService, TokenService>();
+            // services.AddScoped<ITokenService, TokenService>();
 
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddCors(opt =>

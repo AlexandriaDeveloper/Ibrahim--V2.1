@@ -8,6 +8,7 @@ import { UploadEmployeesComponent } from './employee/upload-employees/upload-emp
 import { EmployeeListComponent } from './employee/employee-list/employee-list.component';
 import { EmployeeContactDialogComponent } from './employee/employee-list/employee-contact-dialog/employee-contact-dialog.component';
 import { EmployeeDeleteDialogComponent } from './employee/employee-list/employee-delete-dialog/employee-delete-dialog.component';
+import { PhoneUploadComponent } from './employee/phone-upload/phone-upload.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { EmployeeDeleteDialogComponent } from './employee/employee-list/employee
     UploadEmployeesComponent,
     EmployeeListComponent,
     EmployeeContactDialogComponent,
-    EmployeeDeleteDialogComponent
+    EmployeeDeleteDialogComponent,
+    PhoneUploadComponent
   ],
   imports: [
     CommonModule,

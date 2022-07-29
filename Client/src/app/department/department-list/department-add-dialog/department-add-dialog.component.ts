@@ -37,7 +37,7 @@ export class DepartmentAddDialogComponent implements OnInit, AfterViewInit {
   }
   initilizeForm() {
     return this.fb.group({
-      name: [this.deparment.name, [Validators.required, Validators.minLength(5), Validators.maxLength(300)]]
+      name: [this.deparment.name, [Validators.required, Validators.minLength(3), Validators.maxLength(300)]]
     })
   }
   departmentFormValidator(control) {

@@ -1,7 +1,7 @@
 <button mat-icon-button mat-dialog-close class="btn-close" color="primary">
   <mat-icon>close</mat-icon>
 </button>
-<div class="dialog-container">
+<div class="dialog-container" *ngIf="data.departments">
   <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
     <mat-card color="accent">
       <mat-card-header>
@@ -65,44 +65,19 @@
 
           </mat-form-field>
         </div>
-        <!-- <div class="dialog-control">
-          <label class="title" for=""> الكليه</label>
-          <mat-form-field appearance="fill">
-            <mat-label> الكليه</mat-label>
-            <input matInput placeholder="" autocomplete="off" formControlName="collage">
-            <mat-icon color="primary" matSuffix>qr_code2</mat-icon>
-           <mat-hint>Hint</mat-hint>
-          </mat-form-field>
-        </div>
-        <div class="dialog-control">
-          <label class="title" for="">الوظيفة</label>
-          <mat-form-field appearance="fill">
-            <mat-label>الوظيفة</mat-label>
-            <input matInput placeholder="" autocomplete="off" formControlName="grade">
-            <mat-icon color="primary" matSuffix>qr_code2</mat-icon>
-          <mat-hint>Hint</mat-hint>
-          </mat-form-field>
-        </div> -->
 
 
         <div class="dialog-control">
 
-          <!-- <label class="title" for="">القسم</label>
-          <mat-form-field appearance="fill">
-            <mat-label>القسم</mat-label>
-            <input matInput placeholder="" autocomplete="off" formControlName="tegaraCode">
-            <mat-icon color="primary" matSuffix>qr_code2</mat-icon>
-            <mat-hint>Hint</mat-hint>
-          </mat-form-field> -->
 
 
 
-          <mat-label> اختار القسم</mat-label>
-          <mat-form-field appearance="fill">
+          <mat-label class="title"> اختار القسم</mat-label>
+          <mat-form-field appearance="fill" *ngIf="data">
             <mat-label>اختار ....</mat-label>
-            <mat-select (selectionChange)="onSelectionChange($event.option.value)" formControlName="departmentId"
+            <mat-select (selectionChange)="onSelectionChange($event)" formControlName="departmentId"
               [value]="data?.employee?.departmentId" #departmentSelect>
-              <mat-option *ngFor="let department of data.departments" [value]="department.id">{{department.name}}
+              <mat-option *ngFor="let department of data?.departments" [value]="department.id">{{department.name}}
               </mat-option>
 
             </mat-select>
@@ -112,42 +87,40 @@
             </button>
           </mat-form-field>
 
-          <!-- <label class="title" for="">القسم</label>
-          <mat-form-field appearance="fill">
-            <mat-label>القسم</mat-label>
-            <input type="text" placeholder="أختار قسم ...." aria-label="Number" matInput [matAutocomplete]="auto"
-              [value]="getDepartmentById(data?.employee?.departmentId)" [value]="" #departmentSelect>
-            <button *ngIf="data?.employee?.departmentId" matSuffix mat-icon-button aria-label="Clear"
-              (click)="clearSearch()">
-              <mat-icon>close</mat-icon>
-            </button>
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayWithFun.bind(this)"
-              (optionActivated)="test($event)" (optionSelected)="onSelectionChange($event.option.value)"
-              #departmentSelect>
-              <mat-option *ngFor="let dep of filterdDepartments " [value]="dep.id">
-                {{dep.name}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field> -->
+
         </div>
-        <div class="dialog-control">
-          <label class="title" for="">كود طب</label>
-          <mat-form-field appearance="fill">
+
+
+
+        <!-- <label class="title" for="">كود تجارة</label> -->
+        <div style="display:flex ;width:550px; justify-content: space-between;">
+
+          <label class="title" style="padding:0 0px 0 60px;position: relative; top: 10px;" for="">كود طب</label>
+          <mat-form-field style="width: 100px !important ;">
+
+            <!-- <label class="title" for="">كود طب</label> -->
+
             <mat-label>كود طب</mat-label>
             <input matInput placeholder="" autocomplete="off" formControlName="tabCode">
             <mat-icon color="primary" matSuffix>qr_code</mat-icon>
+
             <!-- <mat-hint>Hint</mat-hint> -->
           </mat-form-field>
-        </div>
-        <div class="dialog-control">
-          <label class="title" for="">كود تجارة</label>
-          <mat-form-field appearance="fill">
+          <label class="title" style=" padding:0 60px 0 0;position: relative; top: 10px;" for="">كود تجارة</label>
+          <mat-form-field style="width: 100px !important ;">
+
             <mat-label>كود تجارة</mat-label>
             <input matInput placeholder="" autocomplete="off" formControlName="tegaraCode">
             <mat-icon color="primary" matSuffix>qr_code2</mat-icon>
-            <!-- <mat-hint>Hint</mat-hint> -->
+
           </mat-form-field>
+
+          <!-- <mat-hint>Hint</mat-hint> -->
+
+
         </div>
+
+
 
 
         <div class="dialog-control">
@@ -181,8 +154,22 @@
             </mat-error>
           </mat-form-field>
         </div>
+
+        <div class="dialog-control">
+          <label class="title" for=""> تاريخ الميلاد</label>
+
+          <mat-form-field appearance="fill" class="example-form-field">
+
+            <input matInput [matDatepicker]="picker" placeholder="title" formControlName="dob">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <!-- <button matSuffix [matDatepickerToggle]="picker"></button> -->
+            <mat-datepicker #picker></mat-datepicker>
+
+            <mat-hint>لا يمكن تحديث تاريخ الميلاد حيث انة مرتبط بالرقم القومى</mat-hint>
+          </mat-form-field>
+        </div>
       </mat-card-content>
-      <mat-card-actions style="display: flex;justify-content:center;">
+      <mat-card-actions style=" display: flex;justify-content:center;">
         <button [disabled]="employeeForm.invalid" mat-raised-button color="primary">حفظ</button>
       </mat-card-actions>
     </mat-card>

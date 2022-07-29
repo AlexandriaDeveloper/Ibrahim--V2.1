@@ -33,10 +33,21 @@ namespace Infrastructure.Services
             {
                 query = query.OrderByDescending(spec.OrderByDescending);
             }
-            if (spec.IsPagingEnabled)
+            if (spec.IsPagination)
             {
-                query = query.Skip(spec.Skip).Take(spec.Take);
+
+                if (spec.OrderBy == null && spec.OrderByDescending == null)
+
+                    query = query.OrderBy(x => x.Id).Skip(spec.Skip).Take(spec.Take);
+                else
+                {
+                    query = query.Skip(spec.Skip).Take(spec.Take);
+                }
+
+
+
             }
+
             query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
             return query;
         }

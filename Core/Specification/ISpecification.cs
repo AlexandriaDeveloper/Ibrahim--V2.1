@@ -8,7 +8,7 @@ namespace Core.Specification
     {
         int Take { get; }
         int Skip { get; }
-        bool IsPagingEnabled { get; }
+        bool IsPagination { get; }
         Expression<Func<T, bool>> Criteria { get; }
         List<Expression<Func<T, bool>>> Criteries { get; }
         List<Expression<Func<T, object>>> Includes { get; }

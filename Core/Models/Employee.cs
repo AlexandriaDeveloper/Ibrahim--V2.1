@@ -21,7 +21,7 @@ namespace Core.Models
         public string Email { get; set; }
 
         public string PhoneNumber { get; set; }
-
+        public DateTime DOB { get; set; }
 
         public Guid? DepartmentId { get; set; }
         public Department Department { get; set; }

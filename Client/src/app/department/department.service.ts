@@ -21,7 +21,7 @@ export class DepartmentService {
     formData.append("fileUpload", file.fileUpload, file.fileUpload.name);
     formData.append("selectedDepartmentId", file.selectedDepartmentId)
 
-    return this.http.post(this.baseApiUrl + 'upload', formData);
+    return this.http.post(this.baseApiUrl + 'upload', formData, { reportProgress: true, observe: "events" });
 
   }
 
@@ -36,9 +36,9 @@ export class DepartmentService {
     }
 
 
-    if (params.isPagination === true) {
-      filterPara = filterPara.append('isPagination', params.isPagination);
-    }
+
+    filterPara = filterPara.append('isPagination', params.isPagination);
+
     return this.http.get(this.baseApiUrl, { params: filterPara });
   }
 

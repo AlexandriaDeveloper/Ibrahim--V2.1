@@ -1,4 +1,4 @@
-using Infrastructure.Identity;
+
 using Microsoft.AspNetCore.Identity;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +20,7 @@ namespace API.Extensions
             builder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
 
 
-            builder.AddEntityFrameworkStores<AppIdentityDbContext>();
+            //  builder.AddEntityFrameworkStores<AppIdentityDbContext>();
             builder.AddSignInManager<SignInManager<AppUser>>();
             builder.AddRoleValidator<RoleValidator<AppRole>>();
             builder.AddRoleManager<RoleManager<AppRole>>();

@@ -56,7 +56,7 @@
       <td mat-cell *matCellDef="let element">
 
 
-        <a mat-flat-button [routerLink]="['/employee-list']" [queryParams]="{departmentId: element.id}">
+        <a mat-button [routerLink]="['/employee-list']" [queryParams]="{departmentId: element.id}">
           {{element.employeesCount}}</a>
       </td>
     </ng-container>
@@ -65,8 +65,8 @@
     <tr mat-row [@rowsAnimation]="" *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator [length]="count" [pageSize]="departmentParam.pageSize" [pageSizeOptions]="[ 10,15, 25]"
-    aria-label="Select page">
+  <mat-paginator class="mat-paginator-sticky" [length]="count" [pageSize]="departmentParam.pageSize"
+    [pageSizeOptions]="[ 10,15, 25]" aria-label="Select page">
   </mat-paginator>
 
 </div>

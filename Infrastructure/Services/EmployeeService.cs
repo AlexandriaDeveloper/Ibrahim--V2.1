@@ -16,33 +16,29 @@ namespace Infrastructure.Services
         {
 
         }
+
+
         public List<Employee> EmployeeTableToEntity(DataTable employeeDataTable)
         {
 
             List<Employee> employees = new List<Employee>();
-            /*
-            
-            
-                    [0] [object]:
-                    "22405260200066"
-                    [1] [object]:
-                    "2-اخرى بطاقات حكومية"
-                    [2] [object]:
-                    {}
-                    [3] [object]:
-                    {}
-                    [4] [object]:
-                    "9"
-                    [5] [object]:
-                    "حفيظة محمد البنا"
-                    [6] [object]:
-                    {}
 
-            */
             //ملف بطاقات
             if (employeeDataTable.Columns.Count == 7)
                 foreach (DataRow row in employeeDataTable.Rows)
                 {
+                    string DOBYear = "";
+                    string DOBMonth = row.ItemArray[0].ToString().Substring(3, 2);
+                    string DOBDay = row.ItemArray[0].ToString().Substring(5, 2);
+                    if (row.ItemArray[0].ToString().StartsWith("2"))
+                    {
+                        DOBYear = "19" + row.ItemArray[0].ToString().Substring(1, 2);
+                    }
+                    else if (row.ItemArray[0].ToString().StartsWith("3"))
+                    {
+                        DOBYear = "20" + row.ItemArray[0].ToString().Substring(1, 2);
+
+                    }
                     employees.Add(new Employee()
                     {
 
@@ -51,6 +47,8 @@ namespace Infrastructure.Services
                         Collage = row.ItemArray[2].ToString(),
                         Grade = row.ItemArray[3].ToString(),
                         Name = row.ItemArray[5].ToString(),
+                        //28505190201376
+                        DOB = new DateTime(int.Parse(DOBYear), int.Parse(DOBMonth), int.Parse(DOBDay)),
                         CreatedAt = DateTime.Now
 
 

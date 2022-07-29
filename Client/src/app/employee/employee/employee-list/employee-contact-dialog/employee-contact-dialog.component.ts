@@ -1,27 +1,41 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { fromEvent, map } from 'rxjs';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+
 import { Department } from 'src/app/department/models/department.model';
 import { NotificationType } from 'src/app/shared/models/notifications';
 import { NotificationBarService } from 'src/app/shared/services/notification-bar.service';
 import { EmployeeService } from '../../services/employee.service';
-
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL'
+  },
+  display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY'
+  }
+};
 @Component({
   selector: 'app-employee-contact-dialog',
   templateUrl: './employee-contact-dialog.component.html',
-  styleUrls: ['./employee-contact-dialog.component.scss']
+  styleUrls: ['./employee-contact-dialog.component.scss'],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ]
 })
 export class EmployeeContactDialogComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('departmentSelect') departmentSelectInput: ElementRef;
+  @ViewChild('departmentSelect', { static: false }) departmentSelectInput: MatSelect;
   employeeForm: FormGroup;
   filterdDepartments: Department[];
   constructor(public dialogRef: MatDialogRef<EmployeeContactDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder, private employeeService: EmployeeService, private notificationService: NotificationBarService) { }
   ngAfterViewInit(): void {
-    var searchDepartment = fromEvent(this.departmentSelectInput.nativeElement, 'keyup')
-    searchDepartment.pipe(map((val: any) => this._filter(val.target.value || '')
-    )).subscribe();
+
+
   }
 
   ngOnInit(): void {
@@ -40,7 +54,8 @@ export class EmployeeContactDialogComponent implements OnInit, AfterViewInit {
       email: [this.data?.employee?.email, [Validators.pattern("^\\w+([\\.-]?\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")]],
       collage: [this.data?.employee?.collage, []],
       grade: [this.data?.employee?.grade, []],
-      departmentId: [this.data?.employee?.departmentId]
+      departmentId: [this.data?.employee?.departmentId],
+      dob: [{ value: this.data?.employee.dob, disabled: true }]
     });
   }
   public employeeFormValidator(controlerName): ValidationErrors {
@@ -50,8 +65,6 @@ export class EmployeeContactDialogComponent implements OnInit, AfterViewInit {
   onSubmit() {
 
     this.data.employee = { ...this.data.employee, ...this.employeeForm.value }
-    // this.data.employee.departmentId = null;
-
 
     this.employeeService.updateEmployee(this.data.employee).subscribe({
 
@@ -70,39 +83,20 @@ export class EmployeeContactDialogComponent implements OnInit, AfterViewInit {
   close() {
     this.dialogRef.close();
   }
-  onSelectionChange(ev) {
+  onSelectionChange(ev: MatSelectChange) {
 
 
-    this.employeeForm.patchValue({ 'departmentId': ev });
+
+    this.employeeForm.patchValue({ 'departmentId': ev.value });
   }
 
-  displayWithFun(ev) {
 
-    const index = this.filterdDepartments.findIndex(x => x.id == ev);
-
-
-    return this.filterdDepartments[index] ? this.filterdDepartments[index]?.name : '';
-
-
-
-  }
-  private _filter(value: string): Department[] {
-
-
-
-    const filterValue = value.toLowerCase();
-
-
-
-    this.filterdDepartments = this.data.departments.filter(option => option.name.startsWith(filterValue));
-
-
-    return this.filterdDepartments;
-  }
   clearSearch() {
     this.employeeForm.patchValue({ departmentId: null })
-    this.departmentSelectInput.nativeElement.value = '';
+    this.departmentSelectInput.value = '';
     this.data.employee.departmentId = null;
+
+
   }
 
   getDepartmentById(departmentId) {
@@ -113,10 +107,6 @@ export class EmployeeContactDialogComponent implements OnInit, AfterViewInit {
 
 
     return this.data.departments[index] ? this.data.departments[index]?.name : '';
-
-  }
-  test(ev) {
-    console.log(ev);
 
   }
 }

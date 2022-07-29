@@ -27,7 +27,7 @@ export class DepartmentEmployeeUploadComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private fb: FormBuilder, private departmentService: DepartmentService, private _snackBar: NotificationBarService) { }
 
   ngOnInit(): void {
-
+    this.departmentParam.isPagination = false;
     this.departmentForm = this.initilizeForm();
     this.loadDepartments(this.departmentParam)
   }
@@ -82,7 +82,7 @@ export class DepartmentEmployeeUploadComponent implements OnInit {
         this.departmentService.uploadFile(this.departmentForm.value).subscribe({
           next: (result) => { },
           error: (err) => {
-            this._snackBar.openSnackBar("تم تحميل الملف", NotificationType.fail, 5);
+            this._snackBar.openSnackBar("عفوا هذا الملف غير مدعوم", NotificationType.fail, 5);
             this.uploading = false;
           },
           complete: () => {

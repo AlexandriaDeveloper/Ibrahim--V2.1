@@ -8,13 +8,14 @@ namespace Core.Specification
         {
             if (!string.IsNullOrEmpty(param.Name))
             {
-                AddCriteries(x => x.Name.StartsWith(param.Name));
+                AddCriteries(x => x.Name.Contains(param.Name));
             }
             // if (param.IncludeEmployees)
             // {
             //     AddInclude(x => x.Employees);
             // }
-            ApplyPaging(param.PageSize * (param.PageIndex), param.PageSize);
+            if (param.IsPagination)
+                ApplyPaging(param.PageSize * (param.PageIndex), param.PageSize);
         }
     }
 
@@ -25,7 +26,7 @@ namespace Core.Specification
         {
             if (!string.IsNullOrEmpty(param.Name))
             {
-                AddCriteries(x => x.Name.StartsWith(param.Name));
+                AddCriteries(x => x.Name.Contains(param.Name));
             }
 
             // ApplyPaging(param.PageSize * (param.PageIndex), param.PageSize);

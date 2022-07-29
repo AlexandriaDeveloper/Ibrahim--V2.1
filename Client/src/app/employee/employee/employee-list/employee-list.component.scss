@@ -17,3 +17,18 @@ table {
 .mat-option {
   text-align: right !important;
 }
+
+.mat-header-cell {
+  text-align: center !important;
+}
+
+.mat-cell {
+  //  padding: 10px;
+  text-align: center !important;
+}
+
+.mat-paginator-sticky {
+  bottom: 0px;
+  position: sticky;
+  z-index: 10;
+}

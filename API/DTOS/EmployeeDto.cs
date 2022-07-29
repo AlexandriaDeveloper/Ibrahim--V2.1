@@ -23,6 +23,9 @@ namespace API.DTOS
         [Required]
         [MaxLength(14), MinLength(14)]
         public string NationalId { get; set; }
+        [Required]
+        public DateTime DOB { get; set; }
+
         [EmailAddress]
         public string Email { get; set; }
         [MaxLength(11), MinLength(11)]

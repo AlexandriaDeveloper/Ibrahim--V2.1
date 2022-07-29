@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { EmployeeParam, EmployeeService } from '../services/employee.service';
-import { debounce, debounceTime, distinctUntilChanged, forkJoin, fromEvent, map, Observable, of, skip, startWith, Subscription, tap } from 'rxjs';
+import { debounce, debounceTime, distinctUntilChanged, forkJoin, fromEvent, map, merge, Observable, of, skip, startWith, Subscription, tap } from 'rxjs';
 import { animate, sequence, style, transition, trigger } from '@angular/animations';
 import { NotificationBarService } from 'src/app/shared/services/notification-bar.service';
 import { NotificationType } from 'src/app/shared/models/notifications';
@@ -13,6 +13,7 @@ import { DepartmentParam, DepartmentService } from 'src/app/department/departmen
 import { Department } from 'src/app/department/models/department.model';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Param } from 'src/app/shared/models/params';
+import { searchElement } from 'src/app/shared/components/search-box/search-box.component';
 
 
 
@@ -38,7 +39,7 @@ export class EmployeeListComponent implements OnInit, AfterViewInit, OnDestroy {
   count;
   displayedColumns: string[] = ['action', 'name', 'tabCode', 'tegaraCode', 'department', 'nationalId'];
   dataSource;
-  departments: Department[] = [];
+  departments: Department[];
   filterdDepartments
   employeeParam: EmployeeParam = new EmployeeParam();
   departmentParam: DepartmentParam = new DepartmentParam();
@@ -46,12 +47,20 @@ export class EmployeeListComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   searchSubscrion: Subscription;
+  @ViewChild('searchDepartmentInput') autoComplete;
+
+  @ViewChild('searchDepartmentInput') departmentSearchField: ElementRef;
   constructor(private employeeService: EmployeeService,
     private router: ActivatedRoute,
     public dialog: MatDialog,
-    private notificationService: NotificationBarService, private departmentService: DepartmentService) { }
+    private notificationService: NotificationBarService, private departmentService: DepartmentService) {
+    console.log('constructor');
+
+
+  }
   ngOnDestroy(): void {
-    this.searchSubscrion.unsubscribe();
+    if (this.searchSubscrion)
+      this.searchSubscrion.unsubscribe();
   }
   ngAfterViewInit(): void {
 
@@ -73,14 +82,23 @@ export class EmployeeListComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe((x) => { });
-    this.search();
+    //this.search();
+    // if (this.autoComplete) {
+    //   let filteredOptionsKeyupEvent = fromEvent(this?.autoComplete?.nativeElement, ("keyup"))
+    //   let filteredOptionsfocuseEvent = fromEvent(this?.autoComplete?.nativeElement, ("focus"))
 
-    // this.filteredOptions = fromEvent(this.autoComplete.nativeElement, ("keyup")).pipe(startWith(''), map((val: any) => this._filter(val.target.value || '')));
-    // this.filteredOptions.subscribe();
+    //   this.filteredOptions = merge(filteredOptionsKeyupEvent, filteredOptionsfocuseEvent)
+    //     .pipe(map((val: any) => this._filter(val.target.value || '')));
+    //   this.filteredOptions.subscribe();
+    // }
+
   }
 
 
   ngOnInit(): void {
+    this.departmentParam.isPagination = false;
+    this.employeeParam.isPagination = true;
+
     const departmentId = this.router.snapshot.queryParams["departmentId"];
     if (departmentId !== undefined) {
       this.employeeParam.departmentId = departmentId;
@@ -92,10 +110,6 @@ export class EmployeeListComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
 
-
-
-
-    // this.departmentService.getDepartments().subscribe((x: any) => this.departments = x);
 
     this.loadEmployee()
   }
@@ -117,69 +131,17 @@ export class EmployeeListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  @ViewChild('nameInput') nameSearchField: ElementRef;
-  @ViewChild('tabCodeInput') tabCodeSearchField: ElementRef;
-  @ViewChild('tegaraCodeInput') tegaraCodeSearchField: ElementRef;
-  @ViewChild('nationalIdInput') nationalIdSearchField: ElementRef;
-  @ViewChild('searchDepartmentInput') departmentSearchField: ElementRef;
-  search() {
-
-    var nameObservable = fromEvent(this.nameSearchField.nativeElement, 'keyup')
-      .pipe(debounceTime(1000), distinctUntilChanged(), tap((x: any) => {
-
-
-        if (this.employeeParam.name !== x.target.value) {
-          this.employeeParam.pageIndex = 0
-          this.employeeParam.name = x.target.value;
-
-          this.loadEmployee()
-
-
-        }
-      }));
-
-
-    var tabCodeObservable = fromEvent(this.tabCodeSearchField.nativeElement, 'keyup')
-      .pipe(debounceTime(600), distinctUntilChanged(), tap((x: any) => {
-
-
-        if (this.employeeParam.tabCode !== x.target.value) {
-          this.employeeParam.pageIndex = 0
-          this.employeeParam.tabCode = x.target.value;
-          this.loadEmployee()
-        }
-      }));
-
-
-    var tegaraCodeObservable = fromEvent(this.tegaraCodeSearchField.nativeElement, 'keyup')
-      .pipe(debounceTime(600), distinctUntilChanged(), tap((x: any) => {
-        if (this.employeeParam.tegaraCode !== x.target.value) {
-          this.employeeParam.pageIndex = 0
-          this.employeeParam.tegaraCode = x.target.value;
-          this.loadEmployee()
-        }
-      }));
-
-    var nationalIdObservable = fromEvent(this.nationalIdSearchField.nativeElement, 'keyup').
-      pipe(debounceTime(600), distinctUntilChanged(), tap((x: any) => {
-        if (this.employeeParam.nationalId !== x.target.value) {
-          this.employeeParam.pageIndex = 0
-          this.employeeParam.nationalId = x.target.value;
-          this.loadEmployee();
-        }
-      }));
-
-
-    var searchDepartmentObservable = fromEvent(this.departmentSearchField.nativeElement, 'keyup')
-    searchDepartmentObservable.pipe(map((val: any) => this._filter(val.target.value || '')
-    )).subscribe();
+  // search() {
 
 
 
-    this.searchSubscrion = forkJoin([nameObservable, tabCodeObservable, tegaraCodeObservable, nationalIdObservable, searchDepartmentObservable])
+  //   var searchDepartmentObservable = fromEvent(this.departmentSearchField.nativeElement, 'keyup')
+  //   searchDepartmentObservable.pipe(map((val: any) => this._filter(val.target.value || '')
+  //   )).subscribe();
 
-      .subscribe();
-  }
+
+
+  // }
 
 
   openDialog(element): void {
@@ -226,19 +188,19 @@ export class EmployeeListComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private _filter(value: string): Department[] {
+  // private _filter(value: string): Department[] {
+  //   this.filterdDepartments = this.departments;
 
+  //   if (value === ' ' || value === '') {
+  //     this.filterdDepartments = this.departments;
+  //     console.log(this.filterdDepartments);
 
-
-    const filterValue = value.toLowerCase();
-
-
-
-    this.filterdDepartments = this.departments.filter(option => option.name.startsWith(filterValue));
-
-
-    return this.filterdDepartments;
-  }
+  //     return this.filterdDepartments;
+  //   }
+  //   const filterValue = value.toLowerCase();
+  //   this.filterdDepartments = this.filterdDepartments.filter(option => option.name.startsWith(filterValue));
+  //   return this.filterdDepartments;
+  // }
   displayWithFun(ev) {
 
     const index = this.filterdDepartments.findIndex(x => x.id == ev);
@@ -252,6 +214,8 @@ export class EmployeeListComponent implements OnInit, AfterViewInit, OnDestroy {
   autocompleteSelectionChange(ev: MatAutocompleteSelectedEvent) {
 
     this.employeeParam.departmentId = ev.option.value;
+
+    this.paginator.pageIndex = 0;
     this.loadEmployee();
 
   }
@@ -265,34 +229,47 @@ export class EmployeeListComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.departments[index] ? this.departments[index]?.name : '';
 
   }
-  clearSearch(param: any) {
-    switch (param) {
-      case 'name':
-        this.employeeParam.name = null
-        this.nameSearchField.nativeElement.value = '';
-        break;
-      case 'tabCode':
-        this.employeeParam.tabCode = null
-        this.tabCodeSearchField.nativeElement.value = '';
-        break;
-      case 'tegaraCode':
-        this.employeeParam.tegaraCode = null
-        this.tegaraCodeSearchField.nativeElement.value = '';
-        break;
-      case 'departmentId':
-        this.employeeParam.departmentId = null
-        this.departmentSearchField.nativeElement.value = '';
-        break;
-      case 'nationalId':
-        this.employeeParam.nationalId = null
-        this.nationalIdSearchField.nativeElement.value = '';
-        break;
-      default:
-        break;
+
+  searchBox(ev: searchElement) {
+
+
+
+    ev.elementValue.pipe(
+      tap((x) => {
+
+
+      })
+    ).subscribe(x => {
+
+      this.employeeParam = x;
+
+
+      this.loadEmployee()
     }
+    )
 
 
-    this.loadEmployee();
+
+
+
+
+
+  }
+
+  clearSerach() {
+
+    this.employeeParam.pageIndex = 0;
+    this.loadEmployee()
+
+
+  }
+  clearSearch2() {
+
+    this.employeeParam.departmentId = null;
+    this.employeeParam.pageIndex = 0;
+    this.loadEmployee()
+
+
   }
 }
 

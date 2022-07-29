@@ -1,9 +1,10 @@
-<table color="primary" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table color="primary" mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="departments">
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
   <!-- Name Action -->
+
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>
 
@@ -22,16 +23,11 @@
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>
-      <mat-form-field color="primary" class="example-full-width" appearance="fill">
-        <mat-label>الأسم</mat-label>
-        <input type="search" matInput placeholder="Ex. محمد على شريف" value="" #nameInput>
 
 
-        <button color="primary" *ngIf="employeeParam.name" matSuffix mat-icon-button aria-label="Clear"
-          (click)="clearSearch('name')">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+      <app-search-box [param]="employeeParam" (clearEvent)="clearSerach($event)" [elementName]="'name'"
+        (searchEvent)="searchBox($event)" [label]="'الأسم'" [placeHolder]="'EX. محمد على شريف'">
+      </app-search-box>
     </th>
     <td mat-cell *matCellDef="let element">
       {{element.name}}
@@ -42,14 +38,11 @@
   <!-- Weight Column -->
   <ng-container matColumnDef="tabCode">
     <th mat-header-cell *matHeaderCellDef>
-      <mat-form-field color="primary" class="example-full-width" appearance="fill">
-        <mat-label>كود طب </mat-label>
-        <input type="search" matInput placeholder="Ex. 2309" value="" autocomplete="off" #tabCodeInput>
-        <button color="primary" *ngIf="employeeParam.tabCode" matSuffix mat-icon-button aria-label="Clear"
-          (click)="clearSearch('tabCode')">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+
+
+      <app-search-box [param]="employeeParam" (clearEvent)="clearSerach($event)" [elementName]="'tabCode'"
+        [label]="'كود طب'" [placeHolder]="'EX. 2309'" (searchEvent)="searchBox($event)">
+      </app-search-box>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.tabCode}} </td>
   </ng-container>
@@ -57,16 +50,9 @@
   <!-- Symbol Column -->
   <ng-container matColumnDef="tegaraCode">
     <th mat-header-cell *matHeaderCellDef>
-      <mat-form-field color="primary" class="example-full-width" appearance="fill">
-        <mat-label>كود تجارة</mat-label>
-        <input type="search" matInput placeholder="Ex. 9511" keypress="search($event)" autocomplete="off"
-          #tegaraCodeInput>
-        <button color="primary" *ngIf="employeeParam.tegaraCode" matSuffix mat-icon-button aria-label="Clear"
-          (click)="clearSearch('tegaraCode')">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-
+      <app-search-box [param]="employeeParam" (clearEvent)="clearSerach($event)" [elementName]="'tegaraCode'"
+        [label]="'كود تجارة'" [placeHolder]="'EX. 9201'" (searchEvent)="searchBox($event)">
+      </app-search-box>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.tegaraCode}} </td>
   </ng-container>
@@ -74,11 +60,11 @@
   <ng-container matColumnDef="department">
     <th mat-header-cell *matHeaderCellDef>
 
-      <mat-form-field appearance="fill">
+      <!-- <mat-form-field appearance="fill">
         <input type="text" placeholder="أختار قسم ...." aria-label="Number" matInput [matAutocomplete]="auto"
           #searchDepartmentInput>
         <button color="primary" *ngIf="employeeParam.departmentId" matSuffix mat-icon-button aria-label="Clear"
-          (click)="clearSearch('departmentId')">
+          (click)="clearSearch2()">
           <mat-icon>close</mat-icon>
         </button>
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayWithFun.bind(this)"
@@ -87,8 +73,9 @@
             {{dep.name}}
           </mat-option>
         </mat-autocomplete>
-      </mat-form-field>
-
+      </mat-form-field> -->
+      <app-search-autocomplete *ngIf="departments" [options]="departments"
+        (onSelectOption)="autocompleteSelectionChange($event)" (onClear)="clearSearch2()"></app-search-autocomplete>
 
     </th>
     <td mat-cell *matCellDef="let element">
@@ -102,14 +89,9 @@
   <!-- Symbol Column -->
   <ng-container matColumnDef="nationalId">
     <th mat-header-cell *matHeaderCellDef>
-      <mat-form-field color="primary" class="example-full-width" appearance="fill">
-        <mat-label>الرقم القومى </mat-label>
-        <input type="search" matInput placeholder="Ex. 25011250202357" value="" autocomplete="off" #nationalIdInput>
-        <button color="primary" *ngIf="employeeParam.nationalId" matSuffix mat-icon-button aria-label="Clear"
-          (click)="clearSearch('nationalId')">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+      <app-search-box [param]="employeeParam" (clearEvent)="clearSerach($event)" [elementName]="'nationalId'"
+        [label]="'الرقم القومى'" [placeHolder]="'EX. 28505190201376'" (searchEvent)="searchBox($event)">
+      </app-search-box>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.nationalId}} </td>
   </ng-container>
@@ -119,6 +101,6 @@
 
 </table>
 
-<mat-paginator [length]="count" [pageSize]="employeeParam.pageSize" [pageSizeOptions]="[ 10,15, 25,50]"
-  aria-label="Select page">
+<mat-paginator class="mat-paginator-sticky" [length]="count" [pageSize]="employeeParam.pageSize"
+  [pageSizeOptions]="[ 10,15, 25,50]" aria-label="Select page">
 </mat-paginator>
